@@ -132,7 +132,7 @@ instance<Module> cultlang::glfw::make_glfw_bindings(instance<lisp::Namespace> ns
         auto i = glfwCreateWindow(*w, *h, n->c_str(), nullptr, nullptr);
         auto res = instance<Window>::make();
         res->window = i;
-        
+
         glfwSetWindowUserPointer(i, res.asInternalPointer());
 
         // WindowEvents
@@ -157,6 +157,10 @@ instance<Module> cultlang::glfw::make_glfw_bindings(instance<lisp::Namespace> ns
             {
                 auto res = win->onClose->execute(win->onClose, {win});
                 if(res) glfwSetWindowShouldClose(window, GLFW_FALSE);
+            }
+            else
+            {
+                glfwSetWindowShouldClose(window, GLFW_TRUE);
             }
         });
         glfwSetWindowRefreshCallback(i,  [](GLFWwindow* window) {
@@ -252,6 +256,8 @@ instance<Module> cultlang::glfw::make_glfw_bindings(instance<lisp::Namespace> ns
         
         return res;       
     });
+    lMM(g"/window/context", [](instance<Window> w) {glfwMakeContextCurrent(w->window);});
+    lMM(g"/window/swap", [](instance<Window> w) {glfwSwapBuffers(w->window);});
 
     lMM(g"/window/onClose", [](instance<Window> w, instance<PSubroutine> p) {w->onClose=p;});
     lMM(g"/window/onMove", [](instance<Window> w, instance<PSubroutine> p) {w->onMove=p;});
@@ -331,6 +337,8 @@ instance<Module> cultlang::glfw::make_glfw_bindings(instance<lisp::Namespace> ns
     lMM(g"/window/hide", [](instance<Window> w) {glfwHideWindow  (w->window);});
     lMM(g"/window/focus", [](instance<Window> w) {glfwFocusWindow  (w->window);});
 
+    // Keyboard
+    lMM(g"/key/name", [](t_i32 k, t_i32 s)  { return t_str::make(glfwGetKeyName(*k, *s));});
     // Events
     lMM(g"/event/poll", []()  { glfwPollEvents();});
     lMM(g"/event/wait", []()  { glfwPollEvents();});

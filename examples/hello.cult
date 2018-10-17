@@ -1,0 +1,18 @@
+(load-dll "glfw")
+(require "builtin:cult/glfw")
+(glfw/init)
+(define win (glfw/window/create 640 480 "Whats up"))
+(glfw/window/onKey win 
+	(function (win key scan action mods)
+		(do
+			(print (glfw/key/name key scan))
+		)
+	)
+)
+(while (== false (glfw/window/shouldClose win))
+	(do
+		(glfw/event/wait)
+	)
+)
+
+(glfw/terminate)
