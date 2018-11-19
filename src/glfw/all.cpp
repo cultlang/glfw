@@ -93,7 +93,7 @@ instance<Module> cultlang::glfw::make_glfw_bindings(instance<lisp::Namespace> ns
         auto res = instance<craft::lisp::library::List>::make();
         int count;
         auto monitors = glfwGetMonitors(&count);
-        for(auto i = 0; i < count; i++)
+        for(size_t i =0; i < count; i++)
         {
             res->push(instance<GLFWmonitor>::makeFromPointerAndMemoryManager(
                 monitors[i], 
@@ -242,7 +242,7 @@ instance<Module> cultlang::glfw::make_glfw_bindings(instance<lisp::Namespace> ns
             {
                 auto lst = instance<craft::lisp::library::List>::make();
 
-                for(auto i = 0; i < count; i++)
+                for(size_t i =0; i < count; i++)
                 {
                     lst->push(t_str::make(paths[i]));
                 }
