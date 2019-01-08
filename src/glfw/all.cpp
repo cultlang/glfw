@@ -62,12 +62,10 @@ namespace _impl {
     p_sub glfwKeyCallback;
 }
 
-instance<Module> cultlang::glfw::make_glfw_bindings(instance<lisp::Namespace> ns, instance<> loader)
+void cultlang::glfw::make_bindings(craft::instance<craft::lisp::Module> ret)
 {
     
-	auto ret = instance<Module>::make(ns, loader);
-	auto sem = instance<CultSemantics>::make(ret);
-	ret->builtin_setSemantics(sem);
+	auto sem = ret->require<lisp::CultSemantics>();
 
     //Utility 
     lMM(g"/rect", [](t_i32 x, t_i32 y) { auto r = instance<Rect>::make(); r->x = x; r->y = y; return r;});
@@ -345,10 +343,9 @@ instance<Module> cultlang::glfw::make_glfw_bindings(instance<lisp::Namespace> ns
     lMM(g"/event/wait", [](t_f64 w)  { glfwWaitEventsTimeout(*w);});
     lMM(g"/event/post", []()  { glfwPostEmptyEvent();});
 
-	return ret;
 }
 
-BuiltinModuleDescription cultlang::glfw::BuiltinGlfw("cult/glfw", cultlang::glfw::make_glfw_bindings);
+BuiltinModuleDescription cultlang::glfw::BuiltinGlfw("extensions/glfw", cultlang::glfw::make_bindings);
 
 
 #include "types/dll_entry.inc"

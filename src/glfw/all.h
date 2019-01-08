@@ -50,7 +50,7 @@ namespace glfw
 
 	extern craft::lisp::BuiltinModuleDescription BuiltinGlfw;
 
-	CULTLANG_GLFW_EXPORTED craft::instance<craft::lisp::Module> make_glfw_bindings(craft::instance<craft::lisp::Namespace> ns, craft::instance<> loader);
+	CULTLANG_GLFW_EXPORTED void make_bindings(craft::instance<craft::lisp::Module> ret);
 }}
 
 CRAFT_TYPE_DECLARE(CULTLANG_GLFW_EXPORTED, GLFWmonitor)
